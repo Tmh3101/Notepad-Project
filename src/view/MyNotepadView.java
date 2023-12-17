@@ -9,6 +9,7 @@ import javax.swing.JMenu;
 import javax.swing.JCheckBoxMenuItem;
 import src.controller.MyNotepadListener;
 import src.model.MyNotepadModel;
+
 import java.awt.BorderLayout;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
@@ -16,6 +17,8 @@ import javax.swing.JScrollPane;
 import java.awt.Dimension;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.GridLayout;
+
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
@@ -33,103 +36,113 @@ public class MyNotepadView extends JFrame {
 
 	private JPanel contentPane;
 	private MyNotepadModel myNotepadModel = new MyNotepadModel();
-	private JLabel label_fileName;
+	private JMenuBar mnBar;
+	private JLabel lbl_fileName;
 	private JTextArea contentArea;
 	private JPanel footer;
+	private JPanel pnl_btn;
+	private JCheckBoxMenuItem chbx_darkMode;
 
 	/**
 	 * Create the frame.
 	 */
 	public MyNotepadView() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage("E:\\Code\\Java\\JavaEclipse\\MyNotepadProject\\src\\view\\icon_notepad.png"));
+		setIconImage(Toolkit.getDefaultToolkit().createImage(MyNotepadView.class.getResource("icon_notepad.png")));
 		setTitle("My Notepad");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 861, 534);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setLayout(new BorderLayout(5, 5));
 
 		ActionListener action = new MyNotepadListener(this);
 		
-		JMenuBar menuBar = new JMenuBar();
-		getContentPane().add(menuBar, BorderLayout.NORTH);
+		mnBar = new JMenuBar();
+		getContentPane().add(mnBar, BorderLayout.NORTH);
 		
-		JMenu menu_file = new JMenu("File");
-		JMenuItem menuItem_open = new JMenuItem("Open", KeyEvent.VK_O);
-		menuItem_open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
-		menuItem_open.addActionListener(action);
-		JMenuItem menuItem_save = new JMenuItem("Save", KeyEvent.VK_S);
-		menuItem_save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
-		menuItem_save.addActionListener(action);
-		JMenuItem menuItem_exit = new JMenuItem("Exit");
-		menuItem_exit.addActionListener(action);
+		JMenu mn_file = new JMenu("File");
+		mn_file.setForeground(Color.ORANGE);
+		JMenuItem mnItm_open = new JMenuItem("Open", KeyEvent.VK_O);
+		mnItm_open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
+		mnItm_open.addActionListener(action);
+		JMenuItem mnItm_save = new JMenuItem("Save", KeyEvent.VK_S);
+		mnItm_save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
+		mnItm_save.addActionListener(action);
+		JMenuItem mnItm_exit = new JMenuItem("Exit");
+		mnItm_exit.addActionListener(action);
 		
-		menu_file.add(menuItem_open);
-		menu_file.add(menuItem_save);
-		menu_file.addSeparator();
-		menu_file.add(menuItem_exit);
-		menuBar.add(menu_file);
+		mn_file.add(mnItm_open);
+		mn_file.add(mnItm_save);
+		mn_file.addSeparator();
+		mn_file.add(mnItm_exit);
+		mnBar.add(mn_file);
 		
-		JMenu menu_edit = new JMenu("Edit");
-		JRadioButtonMenuItem radioButton_bold = new JRadioButtonMenuItem("Bold");
-		radioButton_bold.addActionListener(action);
-		JRadioButtonMenuItem radioButton_italic = new JRadioButtonMenuItem("Italic");
-		radioButton_italic.addActionListener(action);
-		JRadioButtonMenuItem radioButton_plain = new JRadioButtonMenuItem("Plain");
-		radioButton_plain.addActionListener(action);
+		JMenu mn_edit = new JMenu("Edit");
+		mn_edit.setForeground(Color.ORANGE);
+		JRadioButtonMenuItem rdbtn_bold = new JRadioButtonMenuItem("Bold");
+		rdbtn_bold.addActionListener(action);
+		JRadioButtonMenuItem rdbtn_italic = new JRadioButtonMenuItem("Italic");
+		rdbtn_italic.addActionListener(action);
+		JRadioButtonMenuItem rdbtn_plain = new JRadioButtonMenuItem("Plain");
+		rdbtn_plain.addActionListener(action);
 		
 		ButtonGroup bg = new ButtonGroup();
-		bg.add(radioButton_bold);
-		bg.add(radioButton_italic);
-		bg.add(radioButton_plain);
+		bg.add(rdbtn_bold);
+		bg.add(rdbtn_italic);
+		bg.add(rdbtn_plain);
 	
-		menu_edit.add(radioButton_bold);
-		menu_edit.add(radioButton_italic);
-		menu_edit.add(radioButton_plain);
-		menuBar.add(menu_edit);
+		mn_edit.add(rdbtn_bold);
+		mn_edit.add(rdbtn_italic);
+		mn_edit.add(rdbtn_plain);
+		mnBar.add(mn_edit);
 		
 		
-		JMenu menu_view = new JMenu("View");
-		JCheckBoxMenuItem checkBox_darkMode = new JCheckBoxMenuItem("Dark Mode");
-		checkBox_darkMode.addActionListener(action);
-		menu_view.add(checkBox_darkMode);
-		menuBar.add(menu_view);
+		JMenu mn_view = new JMenu("View");
+		mn_view.setForeground(Color.ORANGE);
+		chbx_darkMode = new JCheckBoxMenuItem("Dark Mode");
+		chbx_darkMode.addActionListener(action);
+		mn_view.add(chbx_darkMode);
+		mnBar.add(mn_view);
 		
 		contentArea = new JTextArea();
 		contentArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
-		JScrollPane scrollPane = new JScrollPane(contentArea);
-		contentPane.add(scrollPane, BorderLayout.CENTER);
+		JScrollPane scrlpn = new JScrollPane(contentArea);
+		contentPane.add(scrlpn, BorderLayout.CENTER);
 
-		footer = new JPanel();
+		footer = new JPanel(new BorderLayout());
 		footer.setBackground(new Color(255, 255, 255));
 		footer.setPreferredSize(new Dimension(10, 40));
 		contentPane.add(footer, BorderLayout.SOUTH);
-		footer.setLayout(null);
 
-		label_fileName = new JLabel("File Name");
-		label_fileName.setFont(new Font("Tahoma", Font.ITALIC, 16));
-		label_fileName.setBounds(24, 10, 409, 25);
-		footer.add(label_fileName);
+		lbl_fileName = new JLabel("File Name");
+		lbl_fileName.setFont(new Font("Tahoma", Font.ITALIC, 16));
+		lbl_fileName.setBounds(24, 10, 409, 25);
+		footer.add(lbl_fileName, BorderLayout.CENTER);
 
-		JButton button_open = new JButton("Open");
-		button_open.addActionListener(action);
-		button_open.addActionListener(action);
-		button_open.setIcon(new ImageIcon("E:\\Code\\Java\\JavaEclipse\\MyNotepadProject\\src\\view\\icon_open.png"));
-		button_open.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		button_open.addActionListener(action);
-		button_open.setBounds(597, 6, 110, 30);
-		footer.add(button_open);
+		pnl_btn = new JPanel(new GridLayout(1, 2, 5, 5));
+		footer.add(pnl_btn, BorderLayout.EAST);
 
-		JButton button_save = new JButton("Save");
-		button_save.addActionListener(action);
-		button_save.setIcon(new ImageIcon("E:\\Code\\Java\\JavaEclipse\\MyNotepadProject\\src\\view\\save_icon.png"));
-		button_save.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		button_save.addActionListener(action);
-		button_save.setBounds(717, 6, 110, 30);
-		footer.add(button_save);
+		JButton btn_open = new JButton("Open");
+		btn_open.addActionListener(action);
+		btn_open.addActionListener(action);
+		btn_open.setIcon(new ImageIcon(MyNotepadView.class.getResource("icon_open.png")));
+		btn_open.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btn_open.addActionListener(action);
+		btn_open.setBounds(597, 6, 110, 30);
+		pnl_btn.add(btn_open);
 
+		JButton btn_save = new JButton("Save");
+		btn_save.addActionListener(action);
+		btn_save.setIcon(new ImageIcon(MyNotepadView.class.getResource("icon_save.png")));
+		btn_save.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btn_save.addActionListener(action);
+		btn_save.setBounds(717, 6, 110, 30);
+		pnl_btn.add(btn_save);
+
+		changeView();
 		setVisible(true);
 	}
 
@@ -143,7 +156,7 @@ public class MyNotepadView extends JFrame {
 
 	public void setFileName(String fileName) {
 		myNotepadModel.setFileName(fileName);
-		label_fileName.setText(myNotepadModel.getFileName());
+		lbl_fileName.setText(myNotepadModel.getFileName());
 	}
 
 	public void setTextArea(String text) {
@@ -159,18 +172,27 @@ public class MyNotepadView extends JFrame {
 		return myNotepadModel;
 	}
 	
-	public void onDarkMode() {
-		contentArea.setBackground(new Color(55, 55, 55));
-		contentArea.setForeground(Color.WHITE);
-		footer.setBackground(new Color(55, 55, 55));
-		label_fileName.setForeground(Color.WHITE);
-	}
-	
-	public void offDarkMode() {
-		contentArea.setBackground(Color.WHITE);
-		contentArea.setForeground(Color.BLACK);
-		footer.setBackground(Color.WHITE);
-		label_fileName.setForeground(Color.BLACK);
+	public void changeView() {
+		if(chbx_darkMode.isSelected()){
+
+			mnBar.setBackground(new Color(55, 55, 55));
+			contentPane.setBackground(new Color(55, 55, 55));
+			contentArea.setBackground(new Color(55, 55, 55));
+			contentArea.setForeground(Color.WHITE);
+			pnl_btn.setBackground(new Color(55, 55, 55));
+			footer.setBackground(new Color(55, 55, 55));
+			lbl_fileName.setForeground(Color.WHITE);
+
+		} else {
+			mnBar.setBackground(Color.WHITE);
+			contentPane.setBackground(Color.WHITE);
+			contentArea.setBackground(Color.WHITE);
+			contentArea.setForeground(Color.BLACK);
+			pnl_btn.setBackground(Color.WHITE);
+			footer.setBackground(Color.WHITE);
+			lbl_fileName.setForeground(Color.BLACK);
+
+		}
 	}
 	
 	public void changeStyle(String style) {
